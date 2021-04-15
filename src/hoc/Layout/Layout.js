@@ -6,6 +6,7 @@ class Layout extends React.Component {
    render() {
       return (
          <div className={classes.Layout}> {/* Корневой div для приложения */}
+
             <main> {/* Сюда складываем все дочерние компоненты */}
                {this.props.children}
             </main>
