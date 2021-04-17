@@ -3,6 +3,7 @@ import classes from './Auth.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
+import axios from 'axios';
 
 export default class Auth extends React.Component {
    state = {
@@ -39,7 +40,10 @@ export default class Auth extends React.Component {
 
    };
 
-   registerHandler = () => {
+   // регистрация в firebase
+   registerHandler = async () => {
+      axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5amKToJxBQAQ0MgS4J8kBg-mcPZLfIpU');
+
 
    };
 

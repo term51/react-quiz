@@ -2,6 +2,8 @@ import React from 'react';
 import classes from './Quiz.module.css';
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
+import axios from '../../axios/axios-quiz';
+import Loader from '../../components/UI/Loader/Loader';
 
 // Отвечает за опрос
 class Quiz extends React.Component {
@@ -10,30 +12,8 @@ class Quiz extends React.Component {
       isFinished: false,
       activeQuestion: 0,
       answerState: null, // { [id]:'success' }
-      quiz: [
-         {
-            id: 1,
-            question: 'Какого цвета небо?',
-            rightAnswerId: 2,
-            answers: [
-               {text: 'Черный', id: 1},
-               {text: 'Синий', id: 2},
-               {text: 'Красный', id: 3},
-               {text: 'Зеленый', id: 4}
-            ]
-         },
-         {
-            id: 2,
-            question: 'В каком году основали Питер?',
-            rightAnswerId: 3,
-            answers: [
-               {text: '1700', id: 1},
-               {text: '1702', id: 2},
-               {text: '1703', id: 3},
-               {text: '1803', id: 4}
-            ]
-         }
-      ]
+      quiz: [],
+      loading: true
    };
 
    // функция обработает клик по иерархии компонентов в AnswerItem
@@ -98,8 +78,16 @@ class Quiz extends React.Component {
       });
    };
 
-   componentDidMount() {
-      console.log('Quiz ID = ', this.props.match.params.id);
+   async componentDidMount() {
+      try {
+         const response = await axios.get(`/quizes/${this.props.match.params.id}.json`);
+         const quiz = response.data;
+         this.setState({
+            quiz, loading: false
+         });
+      } catch (e) {
+         console.log(e);
+      }
    }
 
    render() {
@@ -108,7 +96,9 @@ class Quiz extends React.Component {
             <div className={classes.QuizWrapper}>
                <h1>Ответьте на все вопросы</h1>
                {
-                  this.state.isFinished
+                  this.state.loading
+                     ? <Loader/>
+                     : this.state.isFinished
                      ? <FinishedQuiz
                         results={this.state.results}
                         quiz={this.state.quiz}
@@ -123,7 +113,6 @@ class Quiz extends React.Component {
                         state={this.state.answerState} // передача объекта с id ответа и результирующим классом
                      />
                }
-
             </div>
          </div>
       );
