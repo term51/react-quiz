@@ -86,7 +86,7 @@ export default class Auth extends React.Component {
       });
 
       this.setState({
-         formControls
+         formControls, isFormValid
       });
    };
 
