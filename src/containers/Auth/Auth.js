@@ -36,14 +36,41 @@ export default class Auth extends React.Component {
       }
    };
 
-   loginHandler = () => {
+   loginHandler = async() => {
+      const authData = {
+         email: this.state.formControls.email.value,
+         password: this.state.formControls.password.value,
+         returnSecureToken: true
+      };
+      try {
+         const response = await axios.post(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA5amKToJxBQAQ0MgS4J8kBg-mcPZLfIpU',
+            authData
+         );
 
+         console.log(response.data);
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    // регистрация в firebase
    registerHandler = async () => {
-      axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5amKToJxBQAQ0MgS4J8kBg-mcPZLfIpU');
+      const authData = {
+         email: this.state.formControls.email.value,
+         password: this.state.formControls.password.value,
+         returnSecureToken: true
+      };
+      try {
+         const response = await axios.post(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5amKToJxBQAQ0MgS4J8kBg-mcPZLfIpU',
+            authData
+         );
 
+         console.log(response);
+      } catch (e) {
+         console.log(e);
+      }
 
    };
 
